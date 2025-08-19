@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_18_195249) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_19_163036) do
+  create_table "comments", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "meetup_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meetup_id"], name: "index_comments_on_meetup_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "meetups", force: :cascade do |t|
     t.string "title", limit: 30, null: false
     t.string "activity", null: false
@@ -35,5 +45,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_18_195249) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "comments", "meetups"
+  add_foreign_key "comments", "users"
   add_foreign_key "meetups", "users", column: "host_id"
 end
