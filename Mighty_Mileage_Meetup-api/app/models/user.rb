@@ -1,6 +1,10 @@
 class User < ApplicationRecord
     has_secure_password
 
+    # associations
+    has_many :comments
+    has_one :profile
+
     # basic presence validations
     validates :first_name, presence: true
     validates :last_name, presence: true
