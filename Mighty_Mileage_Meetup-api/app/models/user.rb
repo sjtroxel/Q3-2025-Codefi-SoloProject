@@ -2,8 +2,9 @@ class User < ApplicationRecord
     has_secure_password
 
     # associations
-    has_many :comments
-    has_one :profile
+    has_many :comments, dependent: :destroy
+    has_one :profile, dependent: :destroy
+    has_one :location, as: :locationable, dependent: :destroy
 
     # basic presence validations
     validates :first_name, presence: true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_23_164305) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_25_172034) do
   create_table "comments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "meetup_id", null: false
@@ -19,6 +19,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_23_164305) do
     t.datetime "updated_at", null: false
     t.index ["meetup_id"], name: "index_comments_on_meetup_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "locationable_type", null: false
+    t.integer "locationable_id", null: false
+    t.string "zip_code"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.string "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["locationable_type", "locationable_id"], name: "index_locations_on_locationable"
   end
 
   create_table "meetups", force: :cascade do |t|
