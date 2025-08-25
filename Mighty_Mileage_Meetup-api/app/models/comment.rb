@@ -4,5 +4,5 @@ class Comment < ApplicationRecord
 
   # associations
   belongs_to :user
-  belongs_to :meetup
+  belongs_to :commentable, polymorphic: true
 end
