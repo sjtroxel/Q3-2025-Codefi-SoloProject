@@ -1,17 +1,17 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
+  user: one
   activity: MyString
-  location: MyString
-  date_time: 2025-08-18 14:52:49
-  description: MyText
-  host_id: 1
+  content: MyText
+  start_date_time: 2025-08-25 12:56:11
+  end_date_time: 2025-08-25 12:56:11
+  guests: 1
 
 two:
-  title: MyString
+  user: two
   activity: MyString
-  location: MyString
-  date_time: 2025-08-18 14:52:49
-  description: MyText
-  host_id: 1
+  content: MyText
+  start_date_time: 2025-08-25 12:56:11
+  end_date_time: 2025-08-25 12:56:11
+  guests: 1

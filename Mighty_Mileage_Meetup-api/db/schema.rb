@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_25_172034) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_25_175611) do
   create_table "comments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "meetup_id", null: false
@@ -35,15 +35,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_25_172034) do
   end
 
   create_table "meetups", force: :cascade do |t|
-    t.string "title", limit: 30, null: false
-    t.string "activity", null: false
-    t.string "location", limit: 30, null: false
-    t.datetime "date_time", null: false
-    t.text "description"
-    t.integer "host_id", null: false
+    t.integer "user_id", null: false
+    t.string "activity"
+    t.text "content"
+    t.datetime "start_date_time"
+    t.datetime "end_date_time"
+    t.integer "guests"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["host_id"], name: "index_meetups_on_host_id"
+    t.index ["user_id"], name: "index_meetups_on_user_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -68,6 +68,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_25_172034) do
 
   add_foreign_key "comments", "meetups"
   add_foreign_key "comments", "users"
-  add_foreign_key "meetups", "users", column: "host_id"
+  add_foreign_key "meetups", "users"
   add_foreign_key "profiles", "users"
 end
