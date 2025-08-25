@@ -10,13 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_25_175611) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_25_183724) do
   create_table "comments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "meetup_id", null: false
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "commentable_type", null: false
+    t.integer "commentable_id", null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["meetup_id"], name: "index_comments_on_meetup_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -32,6 +35,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_25_175611) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["locationable_type", "locationable_id"], name: "index_locations_on_locationable"
+  end
+
+  create_table "meetup_participants", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "meetup_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meetup_id"], name: "index_meetup_participants_on_meetup_id"
+    t.index ["user_id"], name: "index_meetup_participants_on_user_id"
   end
 
   create_table "meetups", force: :cascade do |t|
@@ -68,6 +80,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_25_175611) do
 
   add_foreign_key "comments", "meetups"
   add_foreign_key "comments", "users"
+  add_foreign_key "meetup_participants", "meetups"
+  add_foreign_key "meetup_participants", "users"
   add_foreign_key "meetups", "users"
   add_foreign_key "profiles", "users"
 end

@@ -5,6 +5,14 @@ class User < ApplicationRecord
     has_many :comments, dependent: :destroy
     has_one :profile, dependent: :destroy
     has_one :location, as: :locationable, dependent: :destroy
+    has_many :meetups
+
+    # meetups that the user has created
+    has_many :created_meetups, class_name: 'Meetup', foreign_key: 'user_id'
+
+    # meetups that the user is participating in
+    has_many :meetup_participants
+    has_many :meetups, through: :meetup_participants
 
     # basic presence validations
     validates :first_name, presence: true
