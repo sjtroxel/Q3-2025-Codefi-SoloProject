@@ -1,51 +1,31 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :authenticate_request, only: [:show, :update]
 
-  # GET /users
-  def index
-    users = User.all
-    render json: users, status: :ok
-  end
-
-  # GET /users/:id
-  def show
-    render json: @user, status: :ok
-  end
-
-  # POST /signup (or /users)
   def create
     user = User.new(user_params)
     if user.save
-      render json: { message: "User created successfully", user: user }, status: :created
+      token = jwt_encode(user_id: user.id)
+      render json: { token: token, user: UserBlueprint.render_as_hash(user) }, status: :created
     else
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /users/:id
-  def update
-    if @user.update(user_params)
-      render json: { message: "User updated successfully", user: @user }, status: :ok
-    else
-      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
-    end
+  def show
+    render json: UserBlueprint.render(@current_user), status: :ok
   end
 
-  # DELETE /users/:id
-  def destroy
-    @user.destroy
-    render json: { message: "User deleted successfully" }, status: :ok
+  def update
+    if @current_user.update(user_params)
+      render json: { message: "Profile updated", user: UserBlueprint.render_as_hash(@current_user) }, status: :ok
+    else
+      render json: { errors: @current_user.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   private
 
-  def set_user
-    @user = User.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: "User not found" }, status: :not_found
-  end
-
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :username, :password, :password_confirmation)
+    params.permit(:first_name, :last_name, :email, :username, :password, :password_confirmation)
   end
 end
