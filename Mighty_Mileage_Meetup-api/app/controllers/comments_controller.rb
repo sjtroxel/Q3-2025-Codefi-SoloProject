@@ -3,8 +3,13 @@ class CommentsController < ApplicationController
   before_action :set_commentable
 
   def index
-    comments = @commentable.comments
-    render json: CommentBlueprint.render(comments), status: :ok
+  page = params[:page].present? ? params[:page].to_i : 1
+  comments = @commentable.comments.page(page).per(10)
+    render json: {
+      comments: CommentBlueprint.render(comments),
+      total_pages: comments.total_pages,
+      current_page: comments.current_page
+    }, status: :ok
   end
 
   def create

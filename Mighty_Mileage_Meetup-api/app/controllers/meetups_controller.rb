@@ -3,8 +3,13 @@ class MeetupsController < ApplicationController
     before_action :authenticate_request, only: [:create, :update, :destroy]
 
     def index
-        meetups = Meetup.all
-        render json: MeetupBlueprint.render(meetups), status: :ok
+        page = params[:page].present? ? params[:page].to_i : 1
+        meetups = Meetup.page(page).per(10)
+        render json: {
+            meetups: MeetupBlueprint.render(meetups),
+            total_pages: meetups.total_pages,
+            current_page: meetups.current_page
+            }, status: :ok
     end
 
     def show
