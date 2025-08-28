@@ -5,6 +5,7 @@ class User < ApplicationRecord
     has_many :comments, dependent: :destroy
     has_one :profile, dependent: :destroy
     has_one :location, as: :locationable, dependent: :destroy
+        accepts_nested_attributes_for :location
     has_many :meetups
 
     # meetups that the user has created

@@ -50,6 +50,7 @@ class MeetupsController < ApplicationController
     end
 
     def meetup_params
-        params.require(:meetup).permit(:activity, :start_date_time, :end_date_time, :guests)
+        params.require(:meetup).permit(:activity, :start_date_time, :end_date_time, :guests,
+        location_attributes: [:address, :city, :state, :zip_code, :country])
     end
 end

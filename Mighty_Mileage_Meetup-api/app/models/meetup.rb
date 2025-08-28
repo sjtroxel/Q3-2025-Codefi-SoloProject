@@ -12,6 +12,7 @@ class Meetup < ApplicationRecord
     # associations
     belongs_to :user
     has_one :location, as: :locationable, dependent: :destroy
+        accepts_nested_attributes_for :location
     has_many :comments, as: :commentable, dependent: :destroy
     has_many :meetup_participants
     has_many :users, through: :meetup_participants
