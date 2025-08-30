@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://booksappsjtroxel.onrender.com',
+  apiUrl: 'http://localhost:3000',
 };
 
 // apiUrl will change when I deploy!!
