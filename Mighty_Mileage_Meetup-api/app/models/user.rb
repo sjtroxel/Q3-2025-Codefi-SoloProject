@@ -9,10 +9,10 @@ class User < ApplicationRecord
     has_many :meetups
 
     # meetups that the user has created
-    has_many :created_meetups, class_name: 'Meetup', foreign_key: 'user_id'
+    has_many :created_meetups, class_name: 'Meetup', foreign_key: 'user_id', dependent: :destroy
 
     # meetups that the user is participating in
-    has_many :meetup_participants
+    has_many :meetup_participants, dependent: :destroy
     has_many :meetups, through: :meetup_participants
 
     # basic presence validations

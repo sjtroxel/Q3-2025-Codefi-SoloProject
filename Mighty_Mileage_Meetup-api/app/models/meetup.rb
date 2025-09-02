@@ -7,14 +7,14 @@ class Meetup < ApplicationRecord
     validate :end_after_start
     validate :duration_within_limit
 
-    enum activity: { run: 'run', bicycle: 'bicycle' }
+    # enum activity: { run: 0, bicycle: 1 }
 
     # associations
     belongs_to :user
     has_one :location, as: :locationable, dependent: :destroy
-        accepts_nested_attributes_for :location
+    accepts_nested_attributes_for :location
     has_many :comments, as: :commentable, dependent: :destroy
-    has_many :meetup_participants
+    has_many :meetup_participants, dependent: :destroy
     has_many :users, through: :meetup_participants
 
     private
