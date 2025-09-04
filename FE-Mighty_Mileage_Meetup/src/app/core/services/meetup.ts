@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.development';
-import { Meetup } from '../shared/models/meetup';
-import { Location } from '../shared/models/location';
+import { environment } from '../../../environments/environment.development';
+import { Meetup } from '../../shared/models/meetup';
+import { Location } from '../../shared/models/location';
 
 @Injectable({
   providedIn: 'root',

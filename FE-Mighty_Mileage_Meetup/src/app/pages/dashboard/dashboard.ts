@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { MeetupService } from '../../services/meetup';
+import { MeetupService } from '../../core/services/meetup';
 import { Meetup } from '../../shared/models/meetup';
 import { Location } from '../../shared/models/location';
 import { DatePipe } from '@angular/common';

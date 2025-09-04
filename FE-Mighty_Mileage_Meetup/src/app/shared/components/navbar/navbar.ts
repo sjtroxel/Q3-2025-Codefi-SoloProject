@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AuthenticationService } from '../../services/authentication';
+import { AuthenticationService } from '../../../core/services/authentication';
 import { CommonModule } from '@angular/common';
 
 @Component({
