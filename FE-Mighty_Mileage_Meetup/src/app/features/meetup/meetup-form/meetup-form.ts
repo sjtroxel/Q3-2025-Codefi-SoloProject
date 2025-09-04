@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { MeetupService } from '../../../core/services/meetup';
 import { Meetup } from '../../../shared/models/meetup';
+import { Location } from '../../../shared/models/location';
 
 @Component({
   selector: 'app-meetup-form',
@@ -15,20 +16,47 @@ export class MeetupFormComponent {
   meetupService = inject(MeetupService);
   form: FormGroup;
 
+  // ✅ Predefined activities array
+  activities = ['run', 'bicycle'];
+
+  // ✅ Add a locations signal - TEMPORARY DUMMY DATA - use third-party API for final??!!
+  locations = signal<Location[]>([
+    {
+      id: 1,
+      city: 'Austin',
+      state: 'TX',
+      address: '123 Main St',
+      zip_code: '78701',
+      country: 'USA'
+    },
+    {
+      id: 2,
+      city: 'Chicago',
+      state: 'IL',
+      address: '456 Oak Ave',
+      zip_code: '60601',
+      country: 'USA'
+    }
+  ]);
+
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       title: ['', Validators.required],
       activity: ['run', Validators.required],
       start_date_time: ['', Validators.required],
       end_date_time: ['', Validators.required],
-      guests: [1, [Validators.required, Validators.min(1)]]
+      guests: [1, [Validators.required, Validators.min(1)]],
+      location: [null, Validators.required]
     });
 
     // Effect to patch form when a meetup is set to edit
     effect(() => {
       const editingMeetup = this.meetupService.meetupToEdit();
       if (editingMeetup) {
-        this.form.patchValue(editingMeetup);
+        this.form.patchValue({
+          ...editingMeetup,
+          location: editingMeetup.location || null
+        });
       }
     });
   }
@@ -38,20 +66,11 @@ export class MeetupFormComponent {
     const editing = this.meetupService.meetupToEdit();
 
     if (editing) {
-      // Update existing meetup
-      const updatedMeetup: Meetup = {
-        ...editing,
-        ...formData
-      };
+      const updatedMeetup: Meetup = { ...editing, ...formData };
       this.meetupService.updateMeetup(updatedMeetup);
       this.meetupService.clearMeetupToEdit();
     } else {
-      // Create new meetup
-      const newMeetup: Meetup = {
-        id: Date.now(), // temp ID
-        ...formData,
-        user_id: 1 // replace with actual logged-in user later
-      };
+      const newMeetup: Meetup = { id: Date.now(), ...formData, user_id: 1 };
       this.meetupService.addMeetup(newMeetup);
     }
 

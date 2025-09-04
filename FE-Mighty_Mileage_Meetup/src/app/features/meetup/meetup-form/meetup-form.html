@@ -1,1 +1,40 @@
-<p>meetup-form works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <!-- Title -->
+  <label for="title">Title</label>
+  <input id="title" type="text" formControlName="title" />
+
+  <!-- Activity -->
+  <label for="activity">Activity</label>
+  <select id="activity" formControlName="activity">
+    @for (activity of activities; track activity) {
+      <option [value]="activity">{{ activity | titlecase }}</option>
+    }
+  </select>
+
+  <!-- Start Date & Time -->
+  <label for="start_date_time">Start Date & Time</label>
+  <input id="start_date_time" type="datetime-local" formControlName="start_date_time" />
+
+  <!-- End Date & Time -->
+  <label for="end_date_time">End Date & Time</label>
+  <input id="end_date_time" type="datetime-local" formControlName="end_date_time" />
+
+  <!-- Guests -->
+  <label for="guests">Guests</label>
+  <input id="guests" type="number" formControlName="guests" min="1" />
+
+  <!-- Location -->
+  <label for="location">Location</label>
+  <select id="location" formControlName="location">
+    @for (loc of locations(); track loc.id) {
+      <option [ngValue]="loc">
+        {{ loc.city }}, {{ loc.state }} ({{ loc.address }})
+      </option>
+    }
+  </select>
+
+  <!-- Submit Button -->
+  <button type="submit">Save Meetup</button>
+
+</form>
