@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment.development';
 import { Meetup } from '../../shared/models/meetup';
-import { Location } from '../../shared/models/location';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -13,38 +11,67 @@ export class MeetupService {
 
   constructor(private http: HttpClient) {}
 
-  // Get all meetups
-  getAllMeetups(): Observable<Meetup[]> {
-    return this.http.get<Meetup[]>(this.apiUrl);
+  // Signals
+  private meetupsSignal = signal<Meetup[]>([]);
+  private meetupToEditSignal = signal<Meetup | null>(null);
+  private loadingSignal = signal<boolean>(false);
+
+  // Exposed signals
+  meetups = this.meetupsSignal.asReadonly();
+  meetupToEdit = this.meetupToEditSignal.asReadonly();
+  loading = this.loadingSignal.asReadonly();
+
+  // Setters
+  setMeetupToEdit(meetup: Meetup) {
+    this.meetupToEditSignal.set(meetup);
   }
 
-  // Get a single meetup by ID
-  getMeetup(id: number): Observable<Meetup> {
-    return this.http.get<Meetup>(`${this.apiUrl}/${id}`);
+  clearMeetupToEdit() {
+    this.meetupToEditSignal.set(null);
   }
 
-  // Create a new meetup
-  createMeetup(meetup: Partial<Meetup>): Observable<Meetup> {
-    return this.http.post<Meetup>(this.apiUrl, meetup);
+  // Load meetups from API
+  loadMeetups() {
+    this.loadingSignal.set(true);
+    this.http.get<Meetup[]>(this.apiUrl).subscribe({
+      next: (data) => {
+        this.meetupsSignal.set(data);
+        this.loadingSignal.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading meetups:', err);
+        this.loadingSignal.set(false);
+      },
+    });
   }
 
-  // Update an existing meetup
-  updateMeetup(id: number, meetup: Partial<Meetup>): Observable<Meetup> {
-    return this.http.put<Meetup>(`${this.apiUrl}/${id}`, meetup);
+  // Add / Update / Delete
+  addMeetup(newMeetup: Meetup) {
+    this.http.post<Meetup>(this.apiUrl, newMeetup).subscribe({
+      next: (created) => {
+        this.meetupsSignal.update((current) => [...current, created]);
+      },
+      error: (err) => console.error('Error adding meetup:', err),
+    });
   }
 
-  // Delete a meetup
-  deleteMeetup(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  updateMeetup(updatedMeetup: Meetup) {
+    this.http.put<Meetup>(`${this.apiUrl}/${updatedMeetup.id}`, updatedMeetup).subscribe({
+      next: (saved) => {
+        this.meetupsSignal.update((current) =>
+          current.map((m) => (m.id === saved.id ? saved : m))
+        );
+      },
+      error: (err) => console.error('Error updating meetup:', err),
+    });
   }
 
-  // Optional: Join a meetup
-  joinMeetup(id: number): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/${id}/join`, {});
-  }
-
-  // Optional: Leave a meetup
-  leaveMeetup(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}/leave`);
+  deleteMeetup(id: number) {
+    this.http.delete<void>(`${this.apiUrl}/${id}`).subscribe({
+      next: () => {
+        this.meetupsSignal.update((current) => current.filter((m) => m.id !== id));
+      },
+      error: (err) => console.error('Error deleting meetup:', err),
+    });
   }
 }
