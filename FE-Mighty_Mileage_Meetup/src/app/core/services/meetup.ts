@@ -30,35 +30,45 @@ export class MeetupService {
     this.meetupToEditSignal.set(null);
   }
 
+  // --- Helper to ensure iterable ---
+  private ensureArray(data: any): Meetup[] {
+    return Array.isArray(data) ? data : [];
+  }
+
   // Load meetups from API
   loadMeetups() {
     this.loadingSignal.set(true);
-    this.http.get<Meetup[]>(this.apiUrl).subscribe({
+    this.http.get<any>(this.apiUrl).subscribe({
       next: (data) => {
-        this.meetupsSignal.set(data);
+        // Ensure we always store an array
+        this.meetupsSignal.set(this.ensureArray(data));
         this.loadingSignal.set(false);
       },
       error: (err) => {
         console.error('Error loading meetups:', err);
+        this.meetupsSignal.set([]); // fallback
         this.loadingSignal.set(false);
       },
     });
   }
 
-  // Add / Update / Delete
+  // Add a new meetup
   addMeetup(newMeetup: Meetup) {
-    this.http.post<Meetup>(this.apiUrl, newMeetup).subscribe({
+    this.http.post<any>(this.apiUrl, newMeetup).subscribe({
       next: (created) => {
-        this.meetupsSignal.update((current) => [...current, created]);
+        const current = this.ensureArray(this.meetupsSignal());
+        this.meetupsSignal.set([...current, created]);
       },
       error: (err) => console.error('Error adding meetup:', err),
     });
   }
 
+  // Update existing meetup
   updateMeetup(updatedMeetup: Meetup) {
-    this.http.put<Meetup>(`${this.apiUrl}/${updatedMeetup.id}`, updatedMeetup).subscribe({
+    this.http.put<any>(`${this.apiUrl}/${updatedMeetup.id}`, updatedMeetup).subscribe({
       next: (saved) => {
-        this.meetupsSignal.update((current) =>
+        const current = this.ensureArray(this.meetupsSignal());
+        this.meetupsSignal.set(
           current.map((m) => (m.id === saved.id ? saved : m))
         );
       },
@@ -66,10 +76,12 @@ export class MeetupService {
     });
   }
 
+  // Delete a meetup
   deleteMeetup(id: number) {
     this.http.delete<void>(`${this.apiUrl}/${id}`).subscribe({
       next: () => {
-        this.meetupsSignal.update((current) => current.filter((m) => m.id !== id));
+        const current = this.ensureArray(this.meetupsSignal());
+        this.meetupsSignal.set(current.filter((m) => m.id !== id));
       },
       error: (err) => console.error('Error deleting meetup:', err),
     });
