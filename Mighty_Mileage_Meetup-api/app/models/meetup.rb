@@ -1,6 +1,7 @@
 class Meetup < ApplicationRecord
     # validations
-    validates :activity, :start_date_time, :end_date_time, :guests, presence: true
+    validates :title, :activity, :start_date_time, :end_date_time, :guests, presence: true
+    validates :title, length: { maximum: 100 }
     validates :activity, inclusion: { in: %w[run bicycle] }
     validates :guests, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 50 }
     validate :start_in_future
