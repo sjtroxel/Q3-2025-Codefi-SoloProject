@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../core/services/authentication';
+import { MeetupService } from '../../core/services/meetup';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent {
   isError = false;
 
   constructor(
+    private meetupService: MeetupService,
     private fb: FormBuilder,
     private authService: AuthenticationService,
     private router: Router
@@ -32,6 +34,7 @@ export class LoginComponent {
 
     this.authService.login(username, password).subscribe({
       next: (res: any) => {
+        console.log(res)
         this.authService.setToken(res.token);
         this.isError = false;
         this.router.navigate(['/']);

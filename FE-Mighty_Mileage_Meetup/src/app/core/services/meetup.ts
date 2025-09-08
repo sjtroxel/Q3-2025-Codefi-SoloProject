@@ -42,7 +42,7 @@ export class MeetupService {
     const token = this.authService.getToken();
     this.http.get<any>(this.apiUrl, { headers: { Authorization: `Bearer ${token}` } }).subscribe({
       next: (data) => {
-        this.meetupsSignal.set(this.ensureArray(data));
+        this.meetupsSignal.set(JSON.parse(data.meetups));
         this.loadingSignal.set(false);
       },
       error: (err) => {

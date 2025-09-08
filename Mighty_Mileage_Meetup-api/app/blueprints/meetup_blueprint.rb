@@ -5,9 +5,13 @@ class MeetupBlueprint < Blueprinter::Base
 
   fields :title, :activity, :start_date_time, :end_date_time, :guests, :created_at, :updated_at
 
-  association :user, blueprint: UserBlueprint
+  # association :user, blueprint: UserBlueprint
 
-  association :location, blueprint: LocationBlueprint
+  # association :location, blueprint: LocationBlueprint
+
+  view :normal do
+    fields :title, :activity, :start_date_time, :end_date_time, :guests, :created_at, :updated_at
+  end
 
   view :extended do
     association :comments, blueprint: CommentBlueprint
