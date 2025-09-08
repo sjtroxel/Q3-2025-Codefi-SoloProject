@@ -1,6 +1,8 @@
 <h1>Mighty Mileage Meetup List</h1>
 <button class="add" (click)="openModal()">Create New Meetup</button>
 
+<app-meetup-card />
+
 @if (loading()) {
   <p>Loading meetups...</p>
 } @else {

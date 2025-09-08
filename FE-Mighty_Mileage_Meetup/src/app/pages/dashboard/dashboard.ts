@@ -2,11 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { MeetupService } from '../../core/services/meetup';
 import { MeetupFormComponent } from '../../features/meetup/meetup-form/meetup-form';
 import { DatePipe } from '@angular/common';
+import { MeetupCardComponent } from '../../features/meetup/meetup-card/meetup-card';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [DatePipe, MeetupFormComponent],
+  imports: [DatePipe, MeetupFormComponent, MeetupCardComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

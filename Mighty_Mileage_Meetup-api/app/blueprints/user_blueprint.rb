@@ -6,6 +6,6 @@ class UserBlueprint < Blueprinter::Base
     fields :first_name, :last_name, :username, :email, :created_at, :updated_at
 
     association :location, blueprint: LocationBlueprint
-    association :meetups, blueprint: MeetupBlueprint, view: :normal
+    # association :meetups, blueprint: MeetupBlueprint, view: :normal
 
 end
