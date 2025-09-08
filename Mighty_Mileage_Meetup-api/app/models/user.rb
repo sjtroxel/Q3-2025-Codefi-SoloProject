@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
     # meetups that the user is participating in
     has_many :meetup_participants, dependent: :destroy
-    has_many :meetups, through: :meetup_participants
+    # has_many :meetups, through: :meetup_participants
 
     # basic presence validations
     validates :first_name, presence: true

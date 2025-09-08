@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  SECRET_KEY = Rails.application.secret_key_base
+  SECRET_KEY = Rails.application.credentials.secret_key_base
 
   # Encode a JWT
   def jwt_encode(payload, exp = 24.hours.from_now)
@@ -19,7 +19,7 @@ class ApplicationController < ActionController::API
     token = header.split(' ').last if header
     begin
       decoded = jwt_decode(token)
-      @current_user = User.find(decoded[:user_id])
+      @current_user = User.find(decoded['user_id'])
     rescue ActiveRecord::RecordNotFound, JWT::DecodeError
       render json: { errors: ['Unauthorized'] }, status: :unauthorized
     end
