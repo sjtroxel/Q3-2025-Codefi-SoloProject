@@ -20,4 +20,9 @@ constructor(
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
+  toggleTheme(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    document.body.classList.toggle('dark-mode', checked);
+}
 }
