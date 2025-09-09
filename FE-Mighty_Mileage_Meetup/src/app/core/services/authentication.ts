@@ -41,4 +41,9 @@ export class AuthenticationService {
 		this.tokenSubject.next(null);
 		this.router.navigate(['/login']);
 	}
+
+  currentUser() {
+    const username = localStorage.getItem('username');
+    return username ? { username } : null;
+}
 }

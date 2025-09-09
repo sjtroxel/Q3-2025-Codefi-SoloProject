@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.scss'
 })
 export class NavbarComponent {
-constructor(
+  constructor(
     public authService: AuthenticationService,
     private router: Router
   ) {}
@@ -21,8 +21,17 @@ constructor(
     this.router.navigate(['/login']);
   }
 
-  toggleTheme(event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
-    document.body.classList.toggle('dark-mode', checked);
-}
+  toggleTheme() {
+    const checkbox = document.querySelector<HTMLInputElement>('.theme-toggle input');
+    const isChecked = checkbox?.checked ?? false;
+
+    // Apply dark or light theme to body
+    document.body.classList.toggle('dark-mode', isChecked);
+
+    // Add a glow effect on toggle container for visual feedback
+    const toggleEl = document.querySelector('.theme-toggle');
+    if (toggleEl) {
+      toggleEl.classList.toggle('dark', isChecked);
+    }
+  }
 }

@@ -4,13 +4,20 @@
   </div>
 
   <div class="nav-links">
+    <!-- Show username if logged in -->
+    @if (authService.isLoggedIn()) {
+      <span class="username">Hi, {{ authService.currentUser()?.username }}</span>
+    }
+
+    <!-- Theme Toggle Slider -->
     <div class="theme-toggle">
       <label>
-        <input type="checkbox" (change)="toggleTheme($event)" />
+        <input type="checkbox" (change)="toggleTheme()" />
         <span class="slider"></span>
       </label>
     </div>
 
+    <!-- Auth Links -->
     @if (authService.isLoggedIn()) {
       <button (click)="logout()">Logout</button>
     } @else {

@@ -1,0 +1,64 @@
+h1 {
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.add {
+  display: block;
+  margin: 0 auto 2rem;
+  background: var(--primary);
+  color: var(--card-bg);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+}
+
+.meetup-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  padding: 0 2rem;
+
+  .meetup-card {
+    background: var(--card-bg);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    color: var(--text);
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+    }
+
+    h3 {
+      color: var(--primary);
+    }
+
+    button {
+      margin-top: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      background: var(--accent);
+      color: var(--card-bg);
+      cursor: pointer;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        background: var(--primary);
+        box-shadow: 0 0 10px var(--primary);
+      }
+    }
+  }
+}

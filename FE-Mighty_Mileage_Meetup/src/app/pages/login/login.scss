@@ -1,0 +1,68 @@
+.login-container,
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  padding: 2rem;
+
+  form {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
+    h2 {
+      text-align: center;
+      color: var(--text);
+    }
+
+    label {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    input {
+      padding: 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 1rem;
+      background: var(--input-bg);
+      color: var(--text);
+      transition: border 0.3s ease;
+
+      &:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 8px var(--accent);
+      }
+    }
+
+    button {
+      background: var(--primary);
+      color: var(--card-bg);
+      border: none;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        background: var(--accent);
+        box-shadow: 0 0 12px var(--accent);
+      }
+    }
+
+    .error {
+      color: var(--error);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+  }
+}
