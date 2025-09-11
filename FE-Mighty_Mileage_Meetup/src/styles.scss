@@ -13,7 +13,8 @@
 }
 
 html, body {
-  padding-top: 70px;
+  height: 100%; /* Make html and body fill the viewport */
+  padding-top: 70px; /* navbar height */
   font-family: 'Nunito', sans-serif;
   font-size: 16px;
   line-height: 1.5;
@@ -89,6 +90,7 @@ p {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
+  min-height: calc(100vh - 70px); /* Ensure container fills remaining viewport */
 }
 
 /* -------------------------------
@@ -125,7 +127,8 @@ input, select {
   border-radius: 4px;
   font-size: 1rem;
   margin-bottom: 0.8rem;
-  background-color: #fff;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
 
   &:focus {
     outline: 2px solid var(--accent);
