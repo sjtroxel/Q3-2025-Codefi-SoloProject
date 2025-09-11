@@ -40,9 +40,13 @@ html, body {
   --card-bg: #ffffff;             /* White cards */
   --border: #cce3d6;              /* Light border */
 
-  /* Buttons (new colors for visibility) */
+  /* Buttons */
   --button-bg: #012f50;           /* Strong blue */
   --button-hover: #005fa3;        /* Darker blue */
+
+  /* Navbar */
+  --navbar-bg: #ffffff;
+  --navbar-text: #083d77;
 }
 
 body.dark-mode {
@@ -56,9 +60,13 @@ body.dark-mode {
   --card-bg: #0a2b1f;             /* Dark card background */
   --border: #145a46;              /* Subtle green border */
 
-  /* Buttons (new colors for visibility) */
-  --button-bg: #012f50;           /* Bright blue */
-  --button-hover: #1c75d8;        /* Darker blue */
+  /* Buttons */
+  --button-bg: #012f50;
+  --button-hover: #1c75d8;
+
+  /* Navbar */
+  --navbar-bg: #0a2b1f;
+  --navbar-text: #d0f4ff;
 }
 
 /* -------------------------------
@@ -158,79 +166,5 @@ label {
 
   button {
     margin-right: 0.5rem;
-  }
-}
-
-/* -------------------------------
-   8. NAVBAR
--------------------------------- */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.8rem 1rem;
-  background-color: var(--card-bg);
-  border-bottom: 1px solid var(--border);
-
-  .brand-name a {
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 1rem;
-
-    a, button {
-      background: none;
-      border: none;
-      color: var(--text-primary);
-      font-weight: 500;
-      cursor: pointer;
-      transition: color 0.2s;
-
-      &:hover {
-        color: var(--accent);
-      }
-    }
-  }
-
-  /* Toggle switch */
-  .theme-toggle {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-
-    input[type="checkbox"] {
-      display: none;
-    }
-
-    .slider {
-      width: 50px;
-      height: 25px;
-      background: var(--border);
-      border-radius: 50px;
-      position: relative;
-      cursor: pointer;
-      transition: background 0.3s;
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: 3px;
-        left: 3px;
-        width: 19px;
-        height: 19px;
-        background: var(--accent);
-        border-radius: 50%;
-        transition: transform 0.3s;
-      }
-    }
-
-    input:checked + .slider::after {
-      transform: translateX(25px);
-    }
   }
 }

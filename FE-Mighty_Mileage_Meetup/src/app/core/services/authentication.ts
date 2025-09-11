@@ -5,45 +5,59 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
 
 @Injectable({
-	providedIn: 'root',
+  providedIn: 'root',
 })
 export class AuthenticationService {
-	private readonly tokenSubject = new BehaviorSubject<string | null>(null);
+  private readonly tokenSubject = new BehaviorSubject<string | null>(null);
 
-	constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-	login(username: string, password: string) {
-		return this.http.post<{ token: string }>(`${environment.apiUrl}/login`, {
-			username,
-			password,
-		});
-	}
+  // Login: expects { token } from backend
+  login(username: string, password: string) {
+    return this.http.post<{ token: string }>(`${environment.apiUrl}/login`, {
+      username,
+      password,
+    });
+  }
 
-	signup(user: any) {
-    	return this.http.post(`${environment.apiUrl}/signup`, { user });
-  	}
+  // Signup
+  signup(user: any) {
+    return this.http.post(`${environment.apiUrl}/signup`, { user });
+  }
 
-	setToken(token: string) {
-		localStorage.setItem('token', token);
-		this.tokenSubject.next(token);
-	}
+  // === Token Handling ===
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+    this.tokenSubject.next(token);
+  }
 
-	getToken() {
-		return localStorage.getItem('token');
-	}
+  getToken() {
+    return localStorage.getItem('token');
+  }
 
-	isLoggedIn() {
-		return !!this.getToken();
-	}
+  // === Username Handling ===
+  setUser(username: string) {
+    localStorage.setItem('username', username);
+  }
 
-	logout() {
-		localStorage.removeItem('token');
-		this.tokenSubject.next(null);
-		this.router.navigate(['/login']);
-	}
+  clearUser() {
+    localStorage.removeItem('username');
+  }
 
   currentUser() {
     const username = localStorage.getItem('username');
     return username ? { username } : null;
-}
+  }
+
+  // === Auth Checks ===
+  isLoggedIn() {
+    return !!this.getToken();
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.clearUser();
+    this.tokenSubject.next(null);
+    this.router.navigate(['/login']);
+  }
 }

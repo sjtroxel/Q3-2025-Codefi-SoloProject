@@ -9,7 +9,7 @@ import { MeetupService } from '../../core/services/meetup';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './login.html',
-  styleUrls: ['./login.scss'],
+  styleUrl: './login.scss',
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -34,8 +34,9 @@ export class LoginComponent {
 
     this.authService.login(username, password).subscribe({
       next: (res: any) => {
-        console.log(res)
+        console.log(res);
         this.authService.setToken(res.token);
+        this.authService.setUser(username);
         this.isError = false;
         this.router.navigate(['/']);
       },

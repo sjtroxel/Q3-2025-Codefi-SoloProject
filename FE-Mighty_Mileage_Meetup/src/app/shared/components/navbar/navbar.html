@@ -6,7 +6,7 @@
   <div class="nav-links">
     <!-- Show username if logged in -->
     @if (authService.isLoggedIn()) {
-      <span class="username">Hi, {{ authService.currentUser()?.username }}</span>
+      <span class="username">Hi, {{ authService.currentUser()?.username }}!</span>
     }
 
     <!-- Theme Toggle Slider -->
