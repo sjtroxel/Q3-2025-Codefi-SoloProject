@@ -7,8 +7,8 @@ h1 {
 .add {
   display: block;
   margin: 0 auto 2rem;
-  background: var(--primary);
-  color: var(--card-bg);
+  background: #012f50;
+  color: #d3f5ed;
   border: none;
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
@@ -19,6 +19,7 @@ h1 {
 
   &:hover {
     background: var(--accent);
+    color: midnightblue;
     box-shadow: 0 0 12px var(--accent);
   }
 }

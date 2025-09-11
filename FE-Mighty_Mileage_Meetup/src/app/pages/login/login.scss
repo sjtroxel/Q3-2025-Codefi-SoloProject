@@ -43,21 +43,21 @@
     }
 
     button {
-      background: var(--primary);
-      color: var(--card-bg);
-      border: none;
-      padding: 0.8rem;
-      border-radius: 8px;
+    //   background: var(--primary);
+    //   color: var(--card-bg);
+    //   border: none;
+    //   padding: 0.8rem;
+    //   border-radius: 8px;
       font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-
-      &:hover {
-        background: var(--accent);
-        box-shadow: 0 0 12px var(--accent);
-      }
+    //   font-weight: bold;
+    //   cursor: pointer;
+    //   transition: background 0.3s ease, box-shadow 0.3s ease;
     }
+    //   &:hover {
+    //     background: var(--accent);
+    //     box-shadow: 0 0 12px var(--accent);
+    //   }
+    // }
 
     .error {
       color: var(--error);

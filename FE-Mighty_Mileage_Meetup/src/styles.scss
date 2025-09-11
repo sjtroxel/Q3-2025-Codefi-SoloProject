@@ -1,3 +1,6 @@
+/* Import Nunito from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
 /* -------------------------------
    1. CSS RESET & BASE STYLES
 -------------------------------- */
@@ -11,7 +14,7 @@
 
 html, body {
   padding-top: 70px;
-  font-family: 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 16px;
   line-height: 1.5;
   background-color: var(--background);
@@ -31,11 +34,15 @@ html, body {
   --background: #e6fff2;          /* Minty green background */
   --text-primary: #083d77;        /* Dark blue */
   --text-secondary: #2e6d32;      /* Dark green */
-  --accent: #32a852;              /* Vibrant green for buttons */
+  --accent: #32a852;              /* Vibrant green for links/icons */
   --accent-hover: #289442;        /* Hover shade */
   --error: #d62828;               /* Red for errors */
   --card-bg: #ffffff;             /* White cards */
   --border: #cce3d6;              /* Light border */
+
+  /* Buttons (new colors for visibility) */
+  --button-bg: #012f50;           /* Strong blue */
+  --button-hover: #005fa3;        /* Darker blue */
 }
 
 body.dark-mode {
@@ -48,6 +55,10 @@ body.dark-mode {
   --error: #ff4d6d;               /* Neon pink/red */
   --card-bg: #0a2b1f;             /* Dark card background */
   --border: #145a46;              /* Subtle green border */
+
+  /* Buttons (new colors for visibility) */
+  --button-bg: #012f50;           /* Bright blue */
+  --button-hover: #1c75d8;        /* Darker blue */
 }
 
 /* -------------------------------
@@ -79,14 +90,14 @@ button {
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 6px;
-  background-color: var(--accent);
+  background-color: var(--button-bg);
   color: #fff;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.1s ease;
 
   &:hover {
-    background-color: var(--accent-hover);
+    background-color: var(--button-hover);
     transform: scale(1.02);
   }
 
