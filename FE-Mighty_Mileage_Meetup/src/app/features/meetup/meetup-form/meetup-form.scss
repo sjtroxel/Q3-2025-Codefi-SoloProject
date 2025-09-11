@@ -6,18 +6,17 @@
   form {
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;        // tighter vertical spacing
-    width: 100%;
+    gap: 0.7rem;
 
     label {
       font-weight: 500;
       color: var(--text);
-      margin-bottom: 0.15rem;  // smaller spacing under label
+      margin-bottom: 0.05rem;
     }
 
     input,
     select {
-      padding: 0.6rem;  // slightly less vertical padding
+      padding: 0.5rem;
       border: 1px solid var(--border);
       border-radius: 6px;
       background: var(--input-bg);
@@ -27,18 +26,24 @@
 
       &:focus {
         border-color: var(--accent);
-        box-shadow: 0 0 6px var(--accent); // slightly smaller shadow
+        box-shadow: 0 0 6px var(--accent);
+      }
+    }
+
+    /* Dark mode option text only */
+    body.dark-mode & {
+      select option {
+        color: var(--text-secondary); // dark green text
       }
     }
 
     button {
-      padding: 0.4rem 1rem; // slightly smaller button
+      padding: 0.4rem 1rem;
       border: 2px solid var(--accent);
       border-radius: 6px;
       background: transparent;
       color: var(--navbar-text);
-      font-size: 0.95rem;
-      font-weight: 500;
+      font-size: 1rem;
       cursor: pointer;
       transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 
@@ -57,8 +62,9 @@
     }
 
     @media (max-width: 600px) {
-      gap: 0.5rem;       // even tighter on mobile
-      input, select {
+      gap: 0.5rem;
+      input,
+      select {
         padding: 0.5rem;
       }
       button {
