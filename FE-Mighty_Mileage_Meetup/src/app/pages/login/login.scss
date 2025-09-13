@@ -2,9 +2,12 @@
 .container {
   display: flex;
   justify-content: center;
-  align-items: flex-start;  // start from top instead of centered
-  min-height: calc(100vh - 60px);
-  padding: 1rem 2rem;       // less top/bottom padding
+  align-items: flex-start;
+  min-height: 100vh;                  // ensure full coverage
+  width: 100%;
+  padding: 1rem 2rem;
+  background-color: var(--background); // ✅ add this
+  box-sizing: border-box;
 
   form {
     background: var(--card-bg);
@@ -67,3 +70,4 @@
     }
   }
 }
+

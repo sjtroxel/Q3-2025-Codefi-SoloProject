@@ -1,24 +1,24 @@
 .login-container,
 .container {
-  min-height: 100vh;               // full viewport height
-  width: 100%;
-  background-color: var(--background); // covers full page in any theme
   display: flex;
   justify-content: center;
-  align-items: flex-start;         // start under navbar
+  align-items: flex-start;
+  min-height: 100vh;                  // ensure full coverage
+  width: 100%;
   padding: 1rem 2rem;
+  background-color: var(--background); // ✅ add this
   box-sizing: border-box;
 
   form {
     background: var(--card-bg);
-    padding: 1.5rem 1.5rem;
+    padding: 1.5rem;        // slightly less than before
     border-radius: 12px;
     box-shadow: var(--card-shadow);
     width: 100%;
     max-width: 400px;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0.9rem;
 
     h2 {
       text-align: center;
