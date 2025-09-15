@@ -1,43 +1,25 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MeetupService } from '../../../core/services/meetup';
 import { Meetup } from '../../../shared/models/meetup';
-import { Location } from '../../../shared/models/location';
 
 @Component({
   selector: 'app-meetup-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './meetup-form.html',
   styleUrl: './meetup-form.scss'
 })
 export class MeetupFormComponent {
   meetupService = inject(MeetupService);
+  http = inject(HttpClient);
+
   form: FormGroup;
+  showForm = signal(true);
 
-  // ✅ Predefined activities array
   activities = ['run', 'bicycle'];
-
-  // ✅ Add a locations signal - TEMPORARY DUMMY DATA - use third-party API for final??!!
-  locations = signal<Location[]>([
-    {
-      id: 1,
-      city: 'Austin',
-      state: 'TX',
-      address: '123 Main St',
-      zip_code: '78701',
-      country: 'USA'
-    },
-    {
-      id: 2,
-      city: 'Chicago',
-      state: 'IL',
-      address: '456 Oak Ave',
-      zip_code: '60601',
-      country: 'USA'
-    }
-  ]);
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
@@ -46,35 +28,58 @@ export class MeetupFormComponent {
       start_date_time: ['', Validators.required],
       end_date_time: ['', Validators.required],
       guests: [1, [Validators.required, Validators.min(1)]],
-      location: [null, Validators.required]
+      location: this.fb.group({
+        address: [''],
+        zip_code: ['', [Validators.required]],
+        city: [''],
+        state: [''],
+        country: ['USA']
+      })
     });
 
-    // Effect to patch form when a meetup is set to edit
+    // Patch form if editing a meetup
     effect(() => {
-      const editingMeetup = this.meetupService.meetupToEdit();
-      if (editingMeetup) {
+      const editing = this.meetupService.meetupToEdit();
+      if (editing) this.form.patchValue(editing);
+    });
+  }
+
+  lookupZip() {
+    const zip = this.form.get('location.zip_code')?.value;
+    if (!zip) return;
+
+    this.http.get<any>(`https://api.zippopotam.us/us/${zip}`).subscribe({
+      next: (res) => {
+        const place = res.places[0];
         this.form.patchValue({
-          ...editingMeetup,
-          location: editingMeetup.location || null
+          location: {
+            city: place['place name'],
+            state: place['state abbreviation']
+          }
         });
-      }
+      },
+      error: () => console.warn('ZIP not found')
     });
   }
 
   onSubmit() {
+    if (this.form.invalid) return;
+
     const formData = this.form.value;
     const editing = this.meetupService.meetupToEdit();
 
     if (editing) {
-      const updatedMeetup: Meetup = { ...editing, ...formData };
-      this.meetupService.updateMeetup(updatedMeetup);
+      const updated: Meetup = { ...editing, ...formData };
+      this.meetupService.updateMeetup(updated);
       this.meetupService.clearMeetupToEdit();
     } else {
       const newMeetup: Meetup = { id: Date.now(), ...formData, user_id: 1 };
       this.meetupService.addMeetup(newMeetup);
     }
 
+    // Reset and hide form
     this.form.reset();
-    console.log('Meetup submitted');
+    this.showForm.set(false);
+    console.log('Meetup submitted and form closed');
   }
 }
